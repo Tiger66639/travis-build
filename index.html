@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Travis-build by Tiger66639</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/Tiger66639/travis-build">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/Tiger66639/travis-build/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/Tiger66639/travis-build/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Travis-build</h1>
+          <p>.travis.yml =&gt; build.sh converter</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/Tiger66639">Tiger66639</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
+<a id="travis-build-" class="anchor" href="#travis-build-" aria-hidden="true"><span class="octicon octicon-link"></span></a>Travis Build <a href="https://travis-ci.org/travis-ci/travis-build"><img src="https://travis-ci.org/travis-ci/travis-build.png?branch=master" alt="Build Status"></a>
+</h1>
+
+<p>Travis Build is a library that <a href="https://github.com/travis-ci/travis-worker">Travis
+Workers</a> use to generate a shell
+based build script which is then uploaded to the VMs using SSH and executed,
+with the resulting output streamed back to Travis.</p>
+
+<p>This code base has gone through several iterations of development, and was
+originally extracted from <a href="https://github.com/travis-ci/travis-worker">Travis
+Worker</a>, before taking its current
+form.</p>
+
+<h2>
+<a id="running-test-suites" class="anchor" href="#running-test-suites" aria-hidden="true"><span class="octicon octicon-link"></span></a>Running test suites</h2>
+
+<p>Since the specs run the generated build script, we recommend running it in a
+virtual machine to contain the changes. There's a Vagrantfile in this
+repository, so you can use <a href="http://www.vagrantup.com">Vagrant</a> for this:</p>
+
+<pre><code>vagrant up
+vagrant ssh
+cd /vagrant
+bundle exec rspec spec
+</code></pre>
+
+<p>If you wish to just run the specs, you can just run <code>bundle exec rspec spec</code>.</p>
+
+<h2>
+<a id="use-as-addon-for-cli" class="anchor" href="#use-as-addon-for-cli" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use as addon for CLI</h2>
+
+<p>You can set travis-build up as a plugin for the <a href="https://github.com/travis-ci/travis.rb">command line client</a>:</p>
+
+<pre><code>ln -s PATH_TO_TRAVIS_BUILD ~/.travis/travis-build
+</code></pre>
+
+<p>This will add the <code>compile</code> command to travis CLI, which produces
+the bash script that runs the specified job, except that the secure environment
+variables are not defined, and that the build matrix expansion is not considered.</p>
+
+<h3>
+<a id="important" class="anchor" href="#important" aria-hidden="true"><span class="octicon octicon-link"></span></a><em>Important</em>
+</h3>
+
+<p>The resulting script contains commands that make changes to the system on which it is executed
+(e.g., edit <code>/etc/resolv.conf</code>, install software).
+Some require <code>sudo</code> privileges and they are not easily undone.</p>
+
+<p>It is highly recommended that you run this on a virtual machine.</p>
+
+<h3>
+<a id="invocation" class="anchor" href="#invocation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Invocation</h3>
+
+<p>The command can be invoked in 3 ways:</p>
+
+<ol>
+<li>
+<p>Without an argument, it produces the bash script for the local <code>.travis.yml</code> without considering <code>env</code> and <code>matrix</code> values
+(<code>travis-build</code> is unable to expand these keys correctly).</p>
+
+<p><code>$ travis compile</code></p>
+</li>
+<li>
+<p>With a single integer, it produces the script for the given build
+(or the first job of that build matrix).</p>
+
+<p><code>$ travis compile 8</code></p>
+</li>
+<li>
+<p>With an argument of the form <code>M.N</code>, it produces the bash script for the job <code>M.N</code>.</p>
+
+<p><code>$ travis compile 351.2</code></p>
+</li>
+</ol>
+
+<p>The resultant script can be used on a (virtual) machine that closely mimics Travis CI's build
+environment to aid you in debugging the build failures.</p>
+
+<h2>
+<a id="license--copyright-information" class="anchor" href="#license--copyright-information" aria-hidden="true"><span class="octicon octicon-link"></span></a>License &amp; copyright information</h2>
+
+<p>See LICENSE file.</p>
+
+<p>Copyright (c) 2011-2014 <a href="https://github.com/travis-ci">Travis CI development
+team</a>.</p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
